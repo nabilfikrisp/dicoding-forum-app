@@ -1,4 +1,4 @@
-import useLogin from '@/hooks/api/useLogin';
+import useLogin from '@/hooks/api/useAuth';
 import { LogOutIcon, MedalIcon, MessagesSquareIcon } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 

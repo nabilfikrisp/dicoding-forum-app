@@ -1,4 +1,4 @@
-import useLogin from '@/hooks/api/useLogin';
+import useLogin from '@/hooks/api/useAuth';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const NotAuthRoute = () => {

@@ -4,10 +4,28 @@ import { AxiosError } from 'axios';
 import { TUser } from './userSlice';
 import { EUserEndpoint } from '@/enums/endpoints/userEndpoint.enum';
 
+export type TRegistrationReqBody = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 export type TLoginReqBody = {
   email: string;
   password: string;
 };
+
+export const REQUEST_REGISTER_USER = createAsyncThunk(
+  'user/REQUEST_REGISTER_USER',
+  async (requestBody: TRegistrationReqBody, { rejectWithValue }) => {
+    try {
+      const { data } = await API.post(EUserEndpoint.REGISTER, requestBody);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error as AxiosError);
+    }
+  },
+);
 
 export const REQUEST_LOGIN = createAsyncThunk(
   'user/REQUEST_LOGIN',
@@ -25,7 +43,7 @@ export const REQUEST_GET_MY_PROFILE = createAsyncThunk(
   'user/REQUEST_GET_MY_PROFILE',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await API.post(EUserEndpoint.ME);
+      const { data } = await API.get(EUserEndpoint.ME);
       return data;
     } catch (error) {
       return rejectWithValue(error as AxiosError);
@@ -51,8 +69,8 @@ const initialState: TLoginState = {
   isLoggedIn: false,
 };
 
-const userLoginSlice = createSlice({
-  name: 'userLogin',
+const authSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {
     LOGOUT_REDUCER: (state) => {
@@ -86,9 +104,20 @@ const userLoginSlice = createSlice({
       .addCase(REQUEST_GET_MY_PROFILE.rejected, (state, { payload }) => {
         state.error = payload as AxiosError;
         state.loading = false;
+      })
+      .addCase(REQUEST_REGISTER_USER.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(REQUEST_REGISTER_USER.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.message = payload.message;
+      })
+      .addCase(REQUEST_REGISTER_USER.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as AxiosError;
       });
   },
 });
 
-export const { LOGOUT_REDUCER } = userLoginSlice.actions;
-export const USER_LOGIN_REDUCER = userLoginSlice.reducer;
+export const { LOGOUT_REDUCER } = authSlice.actions;
+export const AUTH_REDUCER = authSlice.reducer;

@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { USER_REDUCER } from './features/user/userSlice';
-import { USER_REGISTRATION_REDUCER } from './features/user/userRegistrationSlice';
-import { USER_LOGIN_REDUCER } from './features/user/userLoginSlice';
 import { THREAD_REDUCER } from './features/thread/threadSlice';
+import { AUTH_REDUCER } from './features/user/authSlice';
+import { VOTE_REDUCER } from './features/vote/voteSlice';
+import thunkMiddleware from 'redux-thunk';
+import { COMMENT_REDUCER } from './features/comment/commentSlice';
 
 const persistedState = localStorage.getItem('reduxState')
   ? JSON.parse(localStorage.getItem('reduxState') as string)
@@ -12,10 +14,13 @@ const store = configureStore({
   devTools: true,
   reducer: {
     user: USER_REDUCER,
-    userRegistration: USER_REGISTRATION_REDUCER,
-    userLogin: USER_LOGIN_REDUCER,
+    auth: AUTH_REDUCER,
     thread: THREAD_REDUCER,
+    vote: VOTE_REDUCER,
+    comment: COMMENT_REDUCER,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(thunkMiddleware),
   preloadedState: persistedState,
 });
 

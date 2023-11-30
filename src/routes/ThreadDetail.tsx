@@ -1,32 +1,35 @@
 import useThread from '@/hooks/api/useThread';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import dayjs from '@/utils/dayJs.config';
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import { CircleUserRoundIcon } from 'lucide-react';
-import parse from 'html-react-parser';
+import ThreadDetailContent from '@/components/ThreadDetailContent';
+import { TDetailThread } from '@/redux/features/thread/threadSlice';
+import LoadingState from '@/components/LoadingState';
+import ThreadDetailComment from '@/components/ThreadDetailComment';
+import { TComment } from '@/redux/features/comment/commentSlice';
 
 const ThreadDetail = () => {
   const { id } = useParams();
-  const { getDetailThread, detailThread: thread } = useThread();
+  const { getDetailThread, detailThread: thread, loading, error } = useThread();
   useEffect(() => {
     getDetailThread(id as string);
   }, []);
-  console.log(thread, 'DETAIL');
+
+  if (loading) {
+    return <LoadingState />;
+  }
+
+  if (error) {
+    return <p>{error.message}</p>;
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-[800px] flex-col gap-5 p-5">
-      <h1>{thread?.title}</h1>
-      <div className="flex items-center gap-2">
-        <Avatar className="w-6">
-          <AvatarImage src={thread?.owner?.avatar} />
-          <AvatarFallback>
-            <CircleUserRoundIcon />
-          </AvatarFallback>
-        </Avatar>
-        <small>{thread?.owner ? thread?.owner.name : 'Anonymus'}</small>
-        <small>{dayjs(thread?.createdAt).fromNow()}</small>
-      </div>
-      <div className="paragraph">{parse(thread?.body as string)}</div>
+      {thread && (
+        <>
+          <ThreadDetailContent thread={thread as TDetailThread} />
+          <ThreadDetailComment comments={thread?.comments as TComment[]} />
+        </>
+      )}
     </div>
   );
 };

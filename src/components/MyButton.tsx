@@ -7,7 +7,7 @@ type MyButtonProps = {
   isLoadingText?: string;
 } & ButtonProps;
 
-export function MyButton({
+export default function MyButton({
   isLoading,
   isLoadingText = 'Loading...',
   ...props

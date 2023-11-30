@@ -2,21 +2,37 @@ import {
   LOGOUT_REDUCER,
   REQUEST_GET_MY_PROFILE,
   REQUEST_LOGIN,
+  REQUEST_REGISTER_USER,
   TLoginReqBody,
-} from '@/redux/features/user/userLoginSlice';
+  TRegistrationReqBody,
+} from '@/redux/features/user/authSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { deleteLocalStorage, setLocalStorage } from '@/utils/localStorage';
 import { useDispatch, useSelector } from 'react-redux';
 import useResponse from '../useResponse';
 import { useNavigate } from 'react-router-dom';
 
-const useLogin = () => {
+const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loading, message, error, token, myProfile, isLoggedIn } = useSelector(
-    (state: RootState) => state.userLogin,
+    (state: RootState) => state.auth,
   );
   const { handleSuccess, handleError } = useResponse();
+
+  const register = (userData: TRegistrationReqBody) => {
+    dispatch(REQUEST_REGISTER_USER(userData)).then((result) => {
+      if (result.meta.requestStatus === 'fulfilled') {
+        handleSuccess(result.payload.message);
+        navigate('/login');
+      } else if (result.meta.requestStatus === 'rejected') {
+        handleError(
+          result.payload.response.data.message,
+          result.payload.response.status,
+        );
+      }
+    });
+  };
 
   const login = (reqBody: TLoginReqBody) => {
     dispatch(REQUEST_LOGIN(reqBody)).then((result) => {
@@ -56,7 +72,8 @@ const useLogin = () => {
     getMyProfile,
     myProfile,
     isLoggedIn,
+    register,
   };
 };
 
-export default useLogin;
+export default useAuth;

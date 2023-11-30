@@ -13,6 +13,7 @@ import useUser from '@/hooks/api/useUser';
 import { useEffect, useState } from 'react';
 import { TUser } from '@/redux/features/user/userSlice';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import useLogin from '@/hooks/api/useAuth';
 
 type ThreadCardProps = {
   thread: TThread;
@@ -20,6 +21,7 @@ type ThreadCardProps = {
 
 const ThreadCard = ({ thread }: ThreadCardProps) => {
   const { getUserById } = useUser();
+  const { myProfile } = useLogin();
 
   const [owner, setOwner] = useState<TUser | null>(null);
 
@@ -32,11 +34,11 @@ const ThreadCard = ({ thread }: ThreadCardProps) => {
     <div className="flex w-full flex-col gap-4 rounded-lg border border-b-4 p-3 shadow shadow-secondary md:p-5">
       <div className="flex flex-col gap-2">
         <Link to={`/threads/${thread.id}`}>
-          <h4 className="flex-grow hover:underline md:text-3xl">
+          <h4 className="flex-grow break-words hover:underline md:text-3xl">
             {thread.title}
           </h4>
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Avatar className="w-6">
             <AvatarImage src={owner?.avatar} />
             <AvatarFallback>
@@ -51,15 +53,28 @@ const ThreadCard = ({ thread }: ThreadCardProps) => {
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center justify-start gap-3">
           <div className="flex items-start justify-start gap-2">
-            <ThumbsUpIcon />
+            <ThumbsUpIcon
+              fill={
+                thread.upVotesBy.includes(myProfile?.id as string)
+                  ? 'hsl(var(--primary))'
+                  : ''
+              }
+            />
             {thread.upVotesBy.length}
           </div>
-          <div className="flex items-start justify-start gap-2">
-            <ThumbsDownIcon />
+          <div className="flex items-center justify-start gap-2">
+            <ThumbsDownIcon
+              fill={
+                thread.downVotesBy.includes(myProfile?.id as string)
+                  ? 'hsl(var(--destructive))'
+                  : ''
+              }
+            />
             {thread.downVotesBy.length}
           </div>
           <div className="flex items-start justify-start gap-2">
-            <MessageSquareIcon /> {thread.totalComments}
+            <MessageSquareIcon />
+            {thread.totalComments}
           </div>
         </div>
         <Badge>{thread.category}</Badge>

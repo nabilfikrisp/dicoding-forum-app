@@ -1,4 +1,4 @@
-import { TLoginReqBody } from '@/redux/features/user/userLoginSlice';
+import { TLoginReqBody } from '@/redux/features/user/authSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,8 +12,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
-import useLogin from '@/hooks/api/useLogin';
-import { MyButton } from '../MyButton';
+import useLogin from '@/hooks/api/useAuth';
+import MyButton from '../MyButton';
 
 const LoginFormSchema = z.object({
   email: z.string().email(),
