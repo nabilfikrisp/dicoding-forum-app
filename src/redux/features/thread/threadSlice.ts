@@ -1,54 +1,15 @@
 import { API } from '@/config/api';
-import { EThreadEndpoint } from '@/enums/endpoints/threadEndpoint.enum';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { TUser } from '../user/userSlice';
-import { voteEndpoint } from '@/enums/endpoints/voteEndpoint.enum';
 import { TComment } from '../comment/commentSlice';
-
-export const REQUEST_UP_VOTE_THREAD = createAsyncThunk(
-  'user/UP_VOTE_THREAD',
-  async (threadId: string, { rejectWithValue }) => {
-    try {
-      const { data } = await API.post(voteEndpoint(threadId).upVoteThread);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error as AxiosError);
-    }
-  },
-);
-
-export const REQUEST_NEUTRALIZE_VOTE_THREAD = createAsyncThunk(
-  'user/NEUTRALIZE_VOTE_THREAD',
-  async (threadId: string, { rejectWithValue }) => {
-    try {
-      const { data } = await API.post(
-        voteEndpoint(threadId).neutralizeVoteThread,
-      );
-      return data;
-    } catch (error) {
-      return rejectWithValue(error as AxiosError);
-    }
-  },
-);
-
-export const REQUEST_DOWN_VOTE_THREAD = createAsyncThunk(
-  'user/DOWN_VOTE_THREAD',
-  async (threadId: string, { rejectWithValue }) => {
-    try {
-      const { data } = await API.post(voteEndpoint(threadId).downVoteThread);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error as AxiosError);
-    }
-  },
-);
+import { THREAD_ENDPOINT } from '@/endpoints/thread.endpoint';
 
 export const REQUEST_GET_THREADS = createAsyncThunk(
   'thread/REQUEST_GET_THREADS',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await API.get(EThreadEndpoint.THREADS);
+      const { data } = await API.get(THREAD_ENDPOINT.THREADS);
       return data;
     } catch (error) {
       return rejectWithValue(error as AxiosError);
@@ -60,7 +21,7 @@ export const REQUEST_GET_DETAIL_THREAD = createAsyncThunk(
   'thread/REQUEST_GET_DETAIL_THREAD',
   async (id: string, { rejectWithValue }) => {
     try {
-      const { data } = await API.get(`${EThreadEndpoint.DETAIL}/${id}`);
+      const { data } = await API.get(`${THREAD_ENDPOINT.DETAIL}/${id}`);
       return data;
     } catch (error) {
       return rejectWithValue(error as AxiosError);
@@ -119,13 +80,14 @@ const threadSlice = createSlice({
       const { newUserId } = payload;
 
       if (state.detailThread) {
-        state.detailThread = {
-          ...state.detailThread,
-          upVotesBy: [...state.detailThread.upVotesBy, newUserId],
-          downVotesBy: state.detailThread.downVotesBy.filter(
-            (userId) => userId !== newUserId,
-          ),
-        };
+        state.detailThread.upVotesBy = [
+          ...state.detailThread.upVotesBy,
+          newUserId,
+        ];
+
+        state.detailThread.downVotesBy = [
+          ...state.detailThread.downVotesBy,
+        ].filter((userId) => userId !== newUserId);
       }
     },
     neutralizeVote: (
@@ -137,6 +99,7 @@ const threadSlice = createSlice({
         state.detailThread.upVotesBy = [...state.detailThread.upVotesBy].filter(
           (userId) => userId !== newUserId,
         );
+
         state.detailThread.downVotesBy = [
           ...state.detailThread.downVotesBy,
         ].filter((userId) => userId !== newUserId);
@@ -152,6 +115,7 @@ const threadSlice = createSlice({
           ...state.detailThread.downVotesBy,
           newUserId,
         ];
+
         state.detailThread.upVotesBy = [...state.detailThread.upVotesBy].filter(
           (userId) => userId !== newUserId,
         );
@@ -166,6 +130,68 @@ const threadSlice = createSlice({
           ...state.detailThread.comments,
           payload.newComment,
         ];
+      }
+    },
+    pushNewCommentUpVote: (
+      state,
+      { payload }: PayloadAction<{ commentId: string; newUserId: string }>,
+    ) => {
+      const { commentId, newUserId } = payload;
+      if (state.detailThread && state.detailThread.comments) {
+        const commentIndex = state.detailThread.comments.findIndex(
+          (comment) => comment.id === commentId,
+        );
+        if (commentIndex !== -1) {
+          state.detailThread.comments[commentIndex].downVotesBy = [
+            ...state.detailThread.comments[commentIndex].downVotesBy,
+          ].filter((userId) => userId !== newUserId);
+
+          state.detailThread.comments[commentIndex].upVotesBy = [
+            ...state.detailThread.comments[commentIndex].upVotesBy,
+            newUserId,
+          ];
+        }
+      }
+    },
+    pushNewCommentDownVote: (
+      state,
+      { payload }: PayloadAction<{ commentId: string; newUserId: string }>,
+    ) => {
+      const { commentId, newUserId } = payload;
+      if (state.detailThread && state.detailThread.comments) {
+        const commentIndex = state.detailThread.comments.findIndex(
+          (comment) => comment.id === commentId,
+        );
+        if (commentIndex !== -1) {
+          state.detailThread.comments[commentIndex].upVotesBy = [
+            ...state.detailThread.comments[commentIndex].upVotesBy,
+          ].filter((userId) => userId !== newUserId);
+
+          state.detailThread.comments[commentIndex].downVotesBy = [
+            ...state.detailThread.comments[commentIndex].downVotesBy,
+            newUserId,
+          ];
+        }
+      }
+    },
+    neutralizeCommentVote: (
+      state,
+      { payload }: PayloadAction<{ commentId: string; newUserId: string }>,
+    ) => {
+      const { commentId, newUserId } = payload;
+      if (state.detailThread && state.detailThread.comments) {
+        const commentIndex = state.detailThread.comments.findIndex(
+          (comment) => comment.id === commentId,
+        );
+        if (commentIndex !== -1) {
+          state.detailThread.comments[commentIndex].downVotesBy = [
+            ...state.detailThread.comments[commentIndex].downVotesBy,
+          ].filter((userId) => userId !== newUserId);
+
+          state.detailThread.comments[commentIndex].upVotesBy = [
+            ...state.detailThread.comments[commentIndex].upVotesBy,
+          ].filter((userId) => userId !== newUserId);
+        }
       }
     },
   },
@@ -209,5 +235,8 @@ export const {
   pushNewUpVote,
   neutralizeVote,
   pushNewComment,
+  pushNewCommentUpVote,
+  pushNewCommentDownVote,
+  neutralizeCommentVote,
 } = threadSlice.actions;
 export const THREAD_REDUCER = threadSlice.reducer;

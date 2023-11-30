@@ -2,7 +2,7 @@ import { API } from '@/config/api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { TUser } from './userSlice';
-import { EUserEndpoint } from '@/enums/endpoints/userEndpoint.enum';
+import { USER_ENDPOINT } from '@/endpoints/user.endpoint';
 
 export type TRegistrationReqBody = {
   name: string;
@@ -19,7 +19,7 @@ export const REQUEST_REGISTER_USER = createAsyncThunk(
   'user/REQUEST_REGISTER_USER',
   async (requestBody: TRegistrationReqBody, { rejectWithValue }) => {
     try {
-      const { data } = await API.post(EUserEndpoint.REGISTER, requestBody);
+      const { data } = await API.post(USER_ENDPOINT.REGISTER, requestBody);
       return data;
     } catch (error) {
       return rejectWithValue(error as AxiosError);
@@ -31,7 +31,7 @@ export const REQUEST_LOGIN = createAsyncThunk(
   'user/REQUEST_LOGIN',
   async (requestBody: TLoginReqBody, { rejectWithValue }) => {
     try {
-      const { data } = await API.post(EUserEndpoint.LOGIN, requestBody);
+      const { data } = await API.post(USER_ENDPOINT.LOGIN, requestBody);
       return data;
     } catch (error) {
       return rejectWithValue(error as AxiosError);
@@ -43,7 +43,7 @@ export const REQUEST_GET_MY_PROFILE = createAsyncThunk(
   'user/REQUEST_GET_MY_PROFILE',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await API.get(EUserEndpoint.ME);
+      const { data } = await API.get(USER_ENDPOINT.ME);
       return data;
     } catch (error) {
       return rejectWithValue(error as AxiosError);

@@ -1,5 +1,5 @@
 import { API } from '@/config/api';
-import { voteEndpoint } from '@/enums/endpoints/voteEndpoint.enum';
+import { VOTE_ENDPOINT } from '@/endpoints/vote.endpoint';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
@@ -7,7 +7,7 @@ export const REQUEST_UP_VOTE_THREAD = createAsyncThunk(
   'user/UP_VOTE_THREAD',
   async (threadId: string, { rejectWithValue }) => {
     try {
-      const { data } = await API.post(voteEndpoint(threadId).upVoteThread);
+      const { data } = await API.post(VOTE_ENDPOINT(threadId).UP_VOTE_THREAD);
       return data;
     } catch (error) {
       return rejectWithValue(error as AxiosError);
@@ -20,7 +20,7 @@ export const REQUEST_NEUTRALIZE_VOTE_THREAD = createAsyncThunk(
   async (threadId: string, { rejectWithValue }) => {
     try {
       const { data } = await API.post(
-        voteEndpoint(threadId).neutralizeVoteThread,
+        VOTE_ENDPOINT(threadId).NEUTRALIZE_VOTE_THREAD,
       );
       return data;
     } catch (error) {
@@ -33,7 +33,7 @@ export const REQUEST_DOWN_VOTE_THREAD = createAsyncThunk(
   'user/DOWN_VOTE_THREAD',
   async (threadId: string, { rejectWithValue }) => {
     try {
-      const { data } = await API.post(voteEndpoint(threadId).downVoteThread);
+      const { data } = await API.post(VOTE_ENDPOINT(threadId).DOWN_VOTE_THREAD);
       return data;
     } catch (error) {
       return rejectWithValue(error as AxiosError);
@@ -61,7 +61,7 @@ const initialState: TVoteState = {
 };
 
 const voteSlice = createSlice({
-  name: 'thread',
+  name: 'vote',
   initialState,
   reducers: {},
   extraReducers: (builder) => {

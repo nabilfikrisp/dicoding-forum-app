@@ -1,4 +1,4 @@
-export enum EThreadEndpoint {
+export enum THREAD_ENDPOINT {
   THREADS = '/threads',
   DETAIL = '/threads',
 }
