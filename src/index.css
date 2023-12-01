@@ -126,3 +126,15 @@ small {
 .rdp-vhidden {
   @apply hidden;
 }
+
+ol {
+  @apply ms-5 list-decimal;
+}
+
+ul {
+  @apply ms-5 list-disc;
+}
+
+code {
+  @apply rounded-lg bg-slate-900 px-5 py-2;
+}

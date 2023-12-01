@@ -1,17 +1,21 @@
 import {
+  REQUEST_CREATE_THREAD,
   REQUEST_GET_DETAIL_THREAD,
   REQUEST_GET_THREADS,
+  TCreateThreadReqBody,
 } from '@/redux/features/thread/threadSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import useResponse from '../useResponse';
+import { useNavigate } from 'react-router-dom';
 
 const useThread = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { handleError } = useResponse();
+  const { handleError, handleSuccess } = useResponse();
   const { loading, message, error, threads, detailThread } = useSelector(
     (state: RootState) => state.thread,
   );
+  const navigate = useNavigate();
 
   const getThreads = () => {
     dispatch(REQUEST_GET_THREADS()).then((result) => {
@@ -35,6 +39,19 @@ const useThread = () => {
     });
   };
 
+  const createThread = async (reqBody: TCreateThreadReqBody) => {
+    const result = await dispatch(REQUEST_CREATE_THREAD(reqBody));
+    if (result.meta.requestStatus === 'fulfilled') {
+      handleSuccess(result.payload.data.message);
+      navigate('/');
+    } else if (result.meta.requestStatus === 'rejected') {
+      handleError(
+        result.payload.response.data.message,
+        result.payload.response.status,
+      );
+    }
+  };
+
   return {
     loading,
     message,
@@ -43,6 +60,7 @@ const useThread = () => {
     getThreads,
     getDetailThread,
     detailThread,
+    createThread,
   };
 };
 

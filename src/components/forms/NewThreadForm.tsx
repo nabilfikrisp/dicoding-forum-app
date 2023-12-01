@@ -11,15 +11,19 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import MyButton from '../MyButton';
-import { Textarea } from '../ui/textarea';
+import Tiptap from '../TipTap';
+import useThread from '@/hooks/api/useThread';
 
 const formSchema = z.object({
   title: z.string().min(2, {
     message: 'Title must be at least 2 characters.',
   }),
-  body: z.string().min(2, {
-    message: 'Thread content must be at least 2 characters.',
-  }),
+  body: z
+    .string()
+    .min(2, {
+      message: 'Thread content must be at least 2 characters.',
+    })
+    .trim(),
   category: z
     .string()
     .min(2, {
@@ -30,7 +34,9 @@ const formSchema = z.object({
 });
 
 const NewThreadForm = () => {
+  const { createThread, loading } = useThread();
   const form = useForm<z.infer<typeof formSchema>>({
+    mode: 'onChange',
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
@@ -40,8 +46,9 @@ const NewThreadForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    createThread(values);
   };
+
   return (
     <Form {...form}>
       <form
@@ -99,16 +106,18 @@ const NewThreadForm = () => {
                 </h3>
               </FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Input thread content here..."
-                  {...field}
+                <Tiptap
+                  description="Input thread content here..."
+                  onChange={field.onChange}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <MyButton type="submit">Post New Thread</MyButton>
+        <MyButton type="submit" isLoading={loading}>
+          Post New Thread
+        </MyButton>
       </form>
     </Form>
   );

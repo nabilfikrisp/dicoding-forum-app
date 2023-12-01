@@ -29,6 +29,24 @@ export const REQUEST_GET_DETAIL_THREAD = createAsyncThunk(
   },
 );
 
+export type TCreateThreadReqBody = {
+  title: string;
+  category?: string;
+  body: string;
+};
+
+export const REQUEST_CREATE_THREAD = createAsyncThunk(
+  'thread/REQUEST_CREATE_THREAD',
+  async (reqBody: TCreateThreadReqBody, { rejectWithValue }) => {
+    try {
+      const { data } = await API.post(`${THREAD_ENDPOINT.CREATE}`, reqBody);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error as AxiosError);
+    }
+  },
+);
+
 export type TDetailThread = {
   id: string;
   title: string;
@@ -224,6 +242,21 @@ const threadSlice = createSlice({
         state.message = payload.message;
       })
       .addCase(REQUEST_GET_DETAIL_THREAD.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as AxiosError;
+      })
+      // CREATE THREAD
+      .addCase(REQUEST_CREATE_THREAD.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(REQUEST_CREATE_THREAD.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.threads = [...state.threads, payload.data.thread];
+        state.error = null;
+        state.message = payload.message;
+      })
+      .addCase(REQUEST_CREATE_THREAD.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as AxiosError;
       });
