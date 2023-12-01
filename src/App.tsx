@@ -9,6 +9,7 @@ import Register from './routes/Register';
 import NotAuthRoute from './components/middlewares/NotAuthRoute';
 import { Toaster } from './components/ui/toaster';
 import ThreadDetail from './routes/ThreadDetail';
+import NewThread from './routes/NewThread';
 
 const Login = lazy(() => import('./routes/Login'));
 
@@ -29,6 +30,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<LoadingState />}>
                 <ThreadDetail />
+              </Suspense>
+            ),
+          },
+          {
+            path: '/new',
+            element: (
+              <Suspense fallback={<LoadingState />}>
+                <NewThread />
               </Suspense>
             ),
           },

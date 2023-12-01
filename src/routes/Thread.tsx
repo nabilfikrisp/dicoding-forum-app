@@ -4,6 +4,8 @@ import useThread from '@/hooks/api/useThread';
 import LoadingState from '@/components/LoadingState';
 import useLogin from '@/hooks/api/useAuth';
 import useUser from '@/hooks/api/useUser';
+import { useNavigate } from 'react-router-dom';
+import NewThreadButton from '@/components/NewThreadButton';
 
 const EmptyState = () => {
   return (
@@ -14,6 +16,7 @@ const EmptyState = () => {
 };
 
 const Thread = () => {
+  const navigate = useNavigate();
   const { threads, loading, error, getThreads } = useThread();
   const {
     getMyProfile,
@@ -40,8 +43,16 @@ const Thread = () => {
     return <p>Error fetching users data: {userError.message}</p>;
   }
   return (
-    <div className="mx-auto h-full max-w-[800px] p-3">
-      {threads.length > 0 ? <ThreadFeed threads={threads} /> : <EmptyState />}
+    <div className="relative">
+      <div className="mx-auto h-full max-w-[800px] p-3">
+        {threads.length > 0 ? <ThreadFeed threads={threads} /> : <EmptyState />}
+      </div>
+      <NewThreadButton
+        className="fixed bottom-24 right-16"
+        onClick={() => {
+          navigate('/new');
+        }}
+      />
     </div>
   );
 };
