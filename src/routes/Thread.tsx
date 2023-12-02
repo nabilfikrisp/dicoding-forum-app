@@ -6,6 +6,7 @@ import useLogin from '@/hooks/api/useAuth';
 import useUser from '@/hooks/api/useUser';
 import { useNavigate } from 'react-router-dom';
 import NewThreadButton from '@/components/NewThreadButton';
+import PopularCategory from '@/components/PopularCategory';
 
 const EmptyState = () => {
   return (
@@ -17,13 +18,15 @@ const EmptyState = () => {
 
 const Thread = () => {
   const navigate = useNavigate();
-  const { threads, loading, error, getThreads } = useThread();
+  const { loading, error, getThreads, sortedCategory, showedThreads } =
+    useThread();
   const {
     getMyProfile,
     loading: loadingProfile,
     error: profileError,
   } = useLogin();
   const { getUsers, loading: loadingUsers, error: userError } = useUser();
+
   useEffect(() => {
     getThreads();
     getMyProfile();
@@ -42,13 +45,22 @@ const Thread = () => {
   if (userError) {
     return <p>Error fetching users data: {userError.message}</p>;
   }
+
   return (
     <div className="relative">
       <div className="mx-auto h-full max-w-[800px] p-3">
-        {threads.length > 0 ? <ThreadFeed threads={threads} /> : <EmptyState />}
+        <PopularCategory categories={sortedCategory} />
+        <div className="mt-5 flex w-full flex-col gap-3 border-t pt-2">
+          <h2>Threads</h2>
+          {showedThreads.length > 0 ? (
+            <ThreadFeed threads={showedThreads} />
+          ) : (
+            <EmptyState />
+          )}
+        </div>
       </div>
       <NewThreadButton
-        className="fixed bottom-24 right-16"
+        className="fixed bottom-20 right-5 md:bottom-24 md:right-16"
         onClick={() => {
           navigate('/new');
         }}

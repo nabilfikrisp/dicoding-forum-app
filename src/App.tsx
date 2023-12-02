@@ -10,6 +10,7 @@ import NotAuthRoute from './components/middlewares/NotAuthRoute';
 import { Toaster } from './components/ui/toaster';
 import ThreadDetail from './routes/ThreadDetail';
 import NewThread from './routes/NewThread';
+import LeaderBoard from './routes/LeaderBoard';
 
 const Login = lazy(() => import('./routes/Login'));
 
@@ -38,6 +39,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<LoadingState />}>
                 <NewThread />
+              </Suspense>
+            ),
+          },
+          {
+            path: '/leaderboards',
+            element: (
+              <Suspense fallback={<LoadingState />}>
+                <LeaderBoard />
               </Suspense>
             ),
           },

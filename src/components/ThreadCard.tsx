@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import dayjs from '@/utils/dayJs.config';
 import { Badge } from './ui/badge';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import useUser from '@/hooks/api/useUser';
 import { useEffect, useState } from 'react';
 import { TUser } from '@/redux/features/user/userSlice';
@@ -20,6 +20,7 @@ type ThreadCardProps = {
 };
 
 const ThreadCard = ({ thread }: ThreadCardProps) => {
+  const [, setSearchParams] = useSearchParams();
   const { getUserById } = useUser();
   const { myProfile } = useLogin();
 
@@ -77,7 +78,14 @@ const ThreadCard = ({ thread }: ThreadCardProps) => {
             {thread.totalComments}
           </div>
         </div>
-        <Badge>{thread.category}</Badge>
+        <Badge
+          className="cursor-pointer"
+          onClick={() => {
+            setSearchParams({ category: thread.category });
+          }}
+        >
+          {thread.category}
+        </Badge>
       </div>
     </div>
   );

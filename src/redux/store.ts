@@ -5,6 +5,7 @@ import { AUTH_REDUCER } from './features/user/authSlice';
 import { VOTE_REDUCER } from './features/vote/voteSlice';
 import thunkMiddleware from 'redux-thunk';
 import { COMMENT_REDUCER } from './features/comment/commentSlice';
+import { LEADER_BOARD_REDUCER } from './features/leaderboard/leaderBoardSlice';
 
 const persistedState = localStorage.getItem('reduxState')
   ? JSON.parse(localStorage.getItem('reduxState') as string)
@@ -18,6 +19,7 @@ const store = configureStore({
     thread: THREAD_REDUCER,
     vote: VOTE_REDUCER,
     comment: COMMENT_REDUCER,
+    leaderboard: LEADER_BOARD_REDUCER,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(thunkMiddleware),

@@ -77,6 +77,7 @@ type TThreadState = {
   error: AxiosError | null;
   threads: TThread[];
   detailThread: TDetailThread | null;
+  categoryCount: Record<string, number>;
 };
 
 const initialState: TThreadState = {
@@ -85,6 +86,7 @@ const initialState: TThreadState = {
   message: null,
   error: null,
   detailThread: null,
+  categoryCount: {},
 };
 
 const threadSlice = createSlice({
@@ -222,6 +224,17 @@ const threadSlice = createSlice({
       .addCase(REQUEST_GET_THREADS.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.threads = payload.data.threads;
+
+        state.categoryCount = {};
+        const newCategoryCount = { ...state.categoryCount };
+        payload.data.threads.forEach((thread: TThread) => {
+          const category = thread.category;
+          if (category !== undefined && category !== null) {
+            newCategoryCount[category] = (newCategoryCount[category] || 0) + 1;
+          }
+        });
+        state.categoryCount = newCategoryCount;
+
         state.error = null;
         state.message = payload.message;
       })

@@ -26,7 +26,7 @@ const NavBar = () => {
               isActive ? 'text-primary' : '',
             ].join(' ')
           }
-          to="/leaderboard"
+          to="/leaderboards"
         >
           <MedalIcon size="20px" />
           <small>Leaderboard</small>

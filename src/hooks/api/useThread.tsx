@@ -7,14 +7,14 @@ import {
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import useResponse from '../useResponse';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const useThread = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [searchParams] = useSearchParams();
   const { handleError, handleSuccess } = useResponse();
-  const { loading, message, error, threads, detailThread } = useSelector(
-    (state: RootState) => state.thread,
-  );
+  const { loading, message, error, threads, detailThread, categoryCount } =
+    useSelector((state: RootState) => state.thread);
   const navigate = useNavigate();
 
   const getThreads = () => {
@@ -52,6 +52,16 @@ const useThread = () => {
     }
   };
 
+  const sortedCategory: string[] = Object.keys(categoryCount).sort(
+    (a, b) => categoryCount[b] - categoryCount[a],
+  );
+
+  const showedThreads = searchParams.get('category')
+    ? threads.filter(
+        (thread) => thread.category === searchParams.get('category'),
+      )
+    : threads;
+
   return {
     loading,
     message,
@@ -61,6 +71,9 @@ const useThread = () => {
     getDetailThread,
     detailThread,
     createThread,
+    categoryCount,
+    sortedCategory,
+    showedThreads,
   };
 };
 

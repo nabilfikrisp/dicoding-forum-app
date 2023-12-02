@@ -106,10 +106,7 @@ const NewThreadForm = () => {
                 </h3>
               </FormLabel>
               <FormControl>
-                <Tiptap
-                  description="Input thread content here..."
-                  onChange={field.onChange}
-                />
+                <Tiptap description="" onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>

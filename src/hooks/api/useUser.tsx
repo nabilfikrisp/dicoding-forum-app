@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store'; // Import your types
-import { REQUEST_GET_ALL_USER, TUser } from '@/redux/features/user/userSlice'; // Import your user slice
+import { AppDispatch, RootState } from '@/redux/store';
+import { REQUEST_GET_ALL_USER, TUser } from '@/redux/features/user/userSlice';
 
 const useUser = () => {
   const dispatch = useDispatch<AppDispatch>();
