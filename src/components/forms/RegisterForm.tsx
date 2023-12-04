@@ -11,10 +11,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
-
 import MyButton from '../MyButton';
 import useAuth from '@/hooks/api/useAuth';
-import { TRegistrationReqBody } from '@/redux/features/user/authSlice';
 
 const RegisterFormSchema = z.object({
   name: z.string().min(3),
@@ -26,7 +24,7 @@ const RegisterFormSchema = z.object({
 
 const RegisterForm = () => {
   const { register, loading } = useAuth();
-  const form = useForm<TRegistrationReqBody>({
+  const form = useForm<z.infer<typeof RegisterFormSchema>>({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
       name: '',
@@ -34,7 +32,9 @@ const RegisterForm = () => {
       password: '',
     },
   });
-  const onSubmit: SubmitHandler<TRegistrationReqBody> = (data) => {
+  const onSubmit: SubmitHandler<z.infer<typeof RegisterFormSchema>> = (
+    data,
+  ) => {
     register(data);
   };
   return (

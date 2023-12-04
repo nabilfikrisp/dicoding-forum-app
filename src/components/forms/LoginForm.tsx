@@ -1,4 +1,3 @@
-import { TLoginReqBody } from '@/redux/features/user/authSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,14 +23,14 @@ const LoginFormSchema = z.object({
 
 const LoginForm = () => {
   const { login, loading } = useLogin();
-  const form = useForm<TLoginReqBody>({
+  const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
-  const onSubmit: SubmitHandler<TLoginReqBody> = (data) => {
+  const onSubmit: SubmitHandler<z.infer<typeof LoginFormSchema>> = (data) => {
     login(data);
   };
 

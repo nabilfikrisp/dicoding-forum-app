@@ -1,4 +1,3 @@
-import { TThread } from '@/redux/features/thread/threadSlice';
 import parse from 'html-react-parser';
 import {
   CircleUserRoundIcon,
@@ -11,15 +10,12 @@ import { Badge } from './ui/badge';
 import { Link, useSearchParams } from 'react-router-dom';
 import useUser from '@/hooks/api/useUser';
 import { useEffect, useState } from 'react';
-import { TUser } from '@/redux/features/user/userSlice';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import useLogin from '@/hooks/api/useAuth';
+import { TUser } from '@/interfaces/user.interface';
+import { TThread } from '@/interfaces/thread.interface';
 
-type ThreadCardProps = {
-  thread: TThread;
-};
-
-const ThreadCard = ({ thread }: ThreadCardProps) => {
+const ThreadCard = ({ thread }: { thread: TThread }) => {
   const [, setSearchParams] = useSearchParams();
   const { getUserById } = useUser();
   const { myProfile } = useLogin();

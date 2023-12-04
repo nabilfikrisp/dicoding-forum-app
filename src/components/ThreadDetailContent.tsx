@@ -1,4 +1,3 @@
-import { TDetailThread } from '@/redux/features/thread/threadSlice';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {
   CircleUserRoundIcon,
@@ -11,6 +10,7 @@ import { Badge } from './ui/badge';
 import parse from 'html-react-parser';
 import useLogin from '@/hooks/api/useAuth';
 import useVote from '@/hooks/api/useVote';
+import { TDetailThread } from '@/interfaces/thread.interface';
 
 const ThreadDetailContent = ({ thread }: { thread: TDetailThread }) => {
   const {

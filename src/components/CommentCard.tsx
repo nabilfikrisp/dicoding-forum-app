@@ -7,10 +7,10 @@ import {
   ThumbsUpIcon,
 } from 'lucide-react';
 import parse from 'html-react-parser';
-import { TComment } from '@/redux/features/comment/commentSlice';
 import useComment from '@/hooks/api/useComment';
 import useAuth from '@/hooks/api/useAuth';
 import useThread from '@/hooks/api/useThread';
+import { TComment } from '@/interfaces/comment.interface';
 
 const CommentCard = ({ comment }: { comment: TComment }) => {
   const { loading, upVoteComment, neutralizeVoteComment, downVoteComment } =

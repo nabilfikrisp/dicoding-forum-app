@@ -2,10 +2,10 @@ import useThread from '@/hooks/api/useThread';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ThreadDetailContent from '@/components/ThreadDetailContent';
-import { TDetailThread } from '@/redux/features/thread/threadSlice';
 import LoadingState from '@/components/LoadingState';
 import ThreadDetailComment from '@/components/ThreadDetailComment';
-import { TComment } from '@/redux/features/comment/commentSlice';
+import { TDetailThread } from '@/interfaces/thread.interface';
+import { TComment } from '@/interfaces/comment.interface';
 
 const ThreadDetail = () => {
   const { id } = useParams();

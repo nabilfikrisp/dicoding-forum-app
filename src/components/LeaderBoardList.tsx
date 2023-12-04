@@ -1,4 +1,4 @@
-import { TLeaderBoard } from '@/redux/features/leaderboard/leaderBoardSlice';
+import { TLeaderBoard } from '@/interfaces/leaderboard.interface';
 import LeaderBoardCard from './LeaderBoardCard';
 
 const LeaderBoardList = ({

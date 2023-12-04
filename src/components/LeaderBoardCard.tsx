@@ -1,4 +1,4 @@
-import { TLeaderBoard } from '@/redux/features/leaderboard/leaderBoardSlice';
+import { TLeaderBoard } from '@/interfaces/leaderboard.interface';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { CircleUserRoundIcon } from 'lucide-react';
 

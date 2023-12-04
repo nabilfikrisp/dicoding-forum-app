@@ -1,6 +1,6 @@
 import CommentForm from './forms/CommentForm';
 import CommentCard from './CommentCard';
-import { TComment } from '@/redux/features/comment/commentSlice';
+import { TComment } from '@/interfaces/comment.interface';
 
 const EmptyState = () => {
   return (

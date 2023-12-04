@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import * as z from 'zod';
 import {
   Form,
@@ -45,7 +45,7 @@ const NewThreadForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (values) => {
     createThread(values);
   };
 
