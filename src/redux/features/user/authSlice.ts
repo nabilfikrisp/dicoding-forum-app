@@ -1,19 +1,14 @@
 import { API } from '@/config/api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { TUser } from './userSlice';
 import { USER_ENDPOINT } from '@/endpoints/user.endpoint';
 
-export type TRegistrationReqBody = {
-  name: string;
-  email: string;
-  password: string;
-};
-
-export type TLoginReqBody = {
-  email: string;
-  password: string;
-};
+import {
+  TAuthState,
+  TLoginReqBody,
+  TRegisterResponse,
+  TRegistrationReqBody,
+} from '@/interfaces/auth.interface';
 
 export const REQUEST_REGISTER_USER = createAsyncThunk(
   'user/REQUEST_REGISTER_USER',
@@ -51,16 +46,7 @@ export const REQUEST_GET_MY_PROFILE = createAsyncThunk(
   },
 );
 
-type TLoginState = {
-  token: string | null;
-  loading: boolean;
-  message: string | null;
-  error: AxiosError | null;
-  isLoggedIn: boolean;
-  myProfile: TUser | null;
-};
-
-const initialState: TLoginState = {
+const initialState: TAuthState = {
   token: null,
   loading: false,
   message: null,
@@ -82,12 +68,14 @@ const authSlice = createSlice({
     builder
       .addCase(REQUEST_LOGIN.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(REQUEST_LOGIN.fulfilled, (state, { payload }) => {
         state.token = payload.data.token;
         state.loading = false;
         state.message = payload.message;
         state.isLoggedIn = true;
+        state.error = null;
       })
       .addCase(REQUEST_LOGIN.rejected, (state, { payload }) => {
         state.error = payload as AxiosError;
@@ -95,11 +83,13 @@ const authSlice = createSlice({
       })
       .addCase(REQUEST_GET_MY_PROFILE.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(REQUEST_GET_MY_PROFILE.fulfilled, (state, { payload }) => {
         state.myProfile = payload.data.user;
         state.loading = false;
         state.message = payload as string;
+        state.error = null;
       })
       .addCase(REQUEST_GET_MY_PROFILE.rejected, (state, { payload }) => {
         state.error = payload as AxiosError;
@@ -107,11 +97,16 @@ const authSlice = createSlice({
       })
       .addCase(REQUEST_REGISTER_USER.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
-      .addCase(REQUEST_REGISTER_USER.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.message = payload.message;
-      })
+      .addCase(
+        REQUEST_REGISTER_USER.fulfilled,
+        (state, { payload }: PayloadAction<TRegisterResponse>) => {
+          state.loading = false;
+          state.message = payload.message;
+          state.error = null;
+        },
+      )
       .addCase(REQUEST_REGISTER_USER.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as AxiosError;

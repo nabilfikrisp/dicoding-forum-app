@@ -22,7 +22,7 @@ const store = configureStore({
     leaderboard: LEADER_BOARD_REDUCER,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(thunkMiddleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(thunkMiddleware),
   preloadedState: persistedState,
 });
 

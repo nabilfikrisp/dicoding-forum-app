@@ -1,8 +1,12 @@
 import { API } from '@/config/api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { TUser } from '../user/userSlice';
 import { COMMENT_ENDPOINT } from '@/endpoints/comment.endpoint';
+import {
+  TCommentState,
+  TCreateCommentResponse,
+  TVoteCommentResponse,
+} from '@/interfaces/comment.interface';
 
 export const REQUEST_CREATE_COMMENT = createAsyncThunk(
   'user/CREATE_COMMENT',
@@ -73,28 +77,6 @@ export const REQUEST_DOWN_VOTE_COMMENT = createAsyncThunk(
   },
 );
 
-export type TComment = {
-  id: string;
-  content: string;
-  createdAt: string;
-  owner: Omit<TUser, 'email'>;
-  upVotesBy: string[];
-  downVotesBy: string[];
-};
-
-type TCommentState = {
-  comment: TComment | null;
-  vote: {
-    id: string;
-    userId: string;
-    commentId: string;
-    voteType: number;
-  } | null;
-  loading: boolean;
-  message: string | null;
-  error: AxiosError | null;
-};
-
 const initialState: TCommentState = {
   comment: null,
   loading: false,
@@ -114,12 +96,15 @@ const commentSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(REQUEST_CREATE_COMMENT.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.message = payload.message;
-        state.comment = payload.data.comment;
-        state.error = null;
-      })
+      .addCase(
+        REQUEST_CREATE_COMMENT.fulfilled,
+        (state, { payload }: PayloadAction<TCreateCommentResponse>) => {
+          state.loading = false;
+          state.message = payload.message;
+          state.comment = payload.data.comment;
+          state.error = null;
+        },
+      )
       .addCase(REQUEST_CREATE_COMMENT.rejected, (state, { payload }) => {
         state.error = payload as AxiosError;
         state.loading = false;
@@ -129,12 +114,15 @@ const commentSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(REQUEST_UP_VOTE_COMMENT.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.message = payload.message;
-        state.vote = payload.data.vote;
-        state.error = null;
-      })
+      .addCase(
+        REQUEST_UP_VOTE_COMMENT.fulfilled,
+        (state, { payload }: PayloadAction<TVoteCommentResponse>) => {
+          state.loading = false;
+          state.message = payload.message;
+          state.vote = payload.data.vote;
+          state.error = null;
+        },
+      )
       .addCase(REQUEST_UP_VOTE_COMMENT.rejected, (state, { payload }) => {
         state.error = payload as AxiosError;
         state.loading = false;
@@ -146,7 +134,7 @@ const commentSlice = createSlice({
       })
       .addCase(
         REQUEST_NEUTRALIZE_VOTE_COMMENT.fulfilled,
-        (state, { payload }) => {
+        (state, { payload }: PayloadAction<TVoteCommentResponse>) => {
           state.loading = false;
           state.message = payload.message;
           state.vote = payload.data.vote;
@@ -165,12 +153,15 @@ const commentSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(REQUEST_DOWN_VOTE_COMMENT.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.message = payload.message;
-        state.vote = payload.data.vote;
-        state.error = null;
-      })
+      .addCase(
+        REQUEST_DOWN_VOTE_COMMENT.fulfilled,
+        (state, { payload }: PayloadAction<TVoteCommentResponse>) => {
+          state.loading = false;
+          state.message = payload.message;
+          state.vote = payload.data.vote;
+          state.error = null;
+        },
+      )
       .addCase(REQUEST_DOWN_VOTE_COMMENT.rejected, (state, { payload }) => {
         state.error = payload as AxiosError;
         state.loading = false;

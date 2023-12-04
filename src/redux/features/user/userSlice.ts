@@ -1,22 +1,9 @@
 // userSlice.js
 import { API } from '@/config/api';
 import { USER_ENDPOINT } from '@/endpoints/user.endpoint';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { TUserResponse, TUserState } from '@/interfaces/user.interface';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-
-export type TUser = {
-  id: string;
-  name: string;
-  email: string;
-  avatar: string;
-};
-
-export type TUserState = {
-  users: TUser[];
-  loading: boolean;
-  message: string | null;
-  error: AxiosError | null;
-};
 
 const initialState: TUserState = {
   users: [],
@@ -46,11 +33,14 @@ const userSlice = createSlice({
       .addCase(REQUEST_GET_ALL_USER.pending, (state) => {
         state.loading = true;
       })
-      .addCase(REQUEST_GET_ALL_USER.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.users = payload.data.users;
-        state.message = payload.message;
-      })
+      .addCase(
+        REQUEST_GET_ALL_USER.fulfilled,
+        (state, { payload }: PayloadAction<TUserResponse>) => {
+          state.loading = false;
+          state.users = payload.data.users;
+          state.message = payload.message;
+        },
+      )
       .addCase(REQUEST_GET_ALL_USER.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as AxiosError;

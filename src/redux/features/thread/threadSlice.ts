@@ -1,9 +1,16 @@
 import { API } from '@/config/api';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { TUser } from '../user/userSlice';
-import { TComment } from '../comment/commentSlice';
+import { TComment } from '@/interfaces/comment.interface'; 
 import { THREAD_ENDPOINT } from '@/endpoints/thread.endpoint';
+import {
+  TCreateThreadReqBody,
+  TCreateThreadResponse,
+  TDetailThreadResponse,
+  TThread,
+  TThreadState,
+  TThreadsResponse,
+} from '@/interfaces/thread.interface';
 
 export const REQUEST_GET_THREADS = createAsyncThunk(
   'thread/REQUEST_GET_THREADS',
@@ -29,12 +36,6 @@ export const REQUEST_GET_DETAIL_THREAD = createAsyncThunk(
   },
 );
 
-export type TCreateThreadReqBody = {
-  title: string;
-  category?: string;
-  body: string;
-};
-
 export const REQUEST_CREATE_THREAD = createAsyncThunk(
   'thread/REQUEST_CREATE_THREAD',
   async (reqBody: TCreateThreadReqBody, { rejectWithValue }) => {
@@ -46,39 +47,6 @@ export const REQUEST_CREATE_THREAD = createAsyncThunk(
     }
   },
 );
-
-export type TDetailThread = {
-  id: string;
-  title: string;
-  body: string;
-  category: string;
-  createdAt: string;
-  owner: Omit<TUser, 'email'>;
-  upVotesBy: string[];
-  downVotesBy: string[];
-  comments: TComment[];
-};
-
-export type TThread = {
-  id: string;
-  title: string;
-  body: string;
-  category: string;
-  createdAt: string;
-  ownerId: string;
-  upVotesBy: string[];
-  downVotesBy: string[];
-  totalComments: number;
-};
-
-type TThreadState = {
-  loading: boolean;
-  message: string | null;
-  error: AxiosError | null;
-  threads: TThread[];
-  detailThread: TDetailThread | null;
-  categoryCount: Record<string, number>;
-};
 
 const initialState: TThreadState = {
   threads: [],
@@ -221,23 +189,27 @@ const threadSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(REQUEST_GET_THREADS.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.threads = payload.data.threads;
+      .addCase(
+        REQUEST_GET_THREADS.fulfilled,
+        (state, { payload }: PayloadAction<TThreadsResponse>) => {
+          state.loading = false;
+          state.threads = payload.data.threads;
 
-        state.categoryCount = {};
-        const newCategoryCount = { ...state.categoryCount };
-        payload.data.threads.forEach((thread: TThread) => {
-          const category = thread.category;
-          if (category !== undefined && category !== null) {
-            newCategoryCount[category] = (newCategoryCount[category] || 0) + 1;
-          }
-        });
-        state.categoryCount = newCategoryCount;
+          state.categoryCount = {};
+          const newCategoryCount = { ...state.categoryCount };
+          payload.data.threads.forEach((thread: TThread) => {
+            const category = thread.category;
+            if (category !== undefined && category !== null) {
+              newCategoryCount[category] =
+                (newCategoryCount[category] || 0) + 1;
+            }
+          });
+          state.categoryCount = newCategoryCount;
 
-        state.error = null;
-        state.message = payload.message;
-      })
+          state.error = null;
+          state.message = payload.message;
+        },
+      )
       .addCase(REQUEST_GET_THREADS.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as AxiosError;
@@ -248,12 +220,15 @@ const threadSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(REQUEST_GET_DETAIL_THREAD.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.detailThread = payload.data.detailThread;
-        state.error = null;
-        state.message = payload.message;
-      })
+      .addCase(
+        REQUEST_GET_DETAIL_THREAD.fulfilled,
+        (state, { payload }: PayloadAction<TDetailThreadResponse>) => {
+          state.loading = false;
+          state.detailThread = payload.data.detailThread;
+          state.error = null;
+          state.message = payload.message;
+        },
+      )
       .addCase(REQUEST_GET_DETAIL_THREAD.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as AxiosError;
@@ -263,12 +238,15 @@ const threadSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(REQUEST_CREATE_THREAD.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.threads = [...state.threads, payload.data.thread];
-        state.error = null;
-        state.message = payload.message;
-      })
+      .addCase(
+        REQUEST_CREATE_THREAD.fulfilled,
+        (state, { payload }: PayloadAction<TCreateThreadResponse>) => {
+          state.loading = false;
+          state.threads = [...state.threads, payload.data.thread];
+          state.error = null;
+          state.message = payload.message;
+        },
+      )
       .addCase(REQUEST_CREATE_THREAD.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as AxiosError;

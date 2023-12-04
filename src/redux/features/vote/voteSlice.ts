@@ -1,6 +1,11 @@
+import { TVoteResponse, TVoteState } from '@/interfaces/vote.interface';
 import { API } from '@/config/api';
 import { VOTE_ENDPOINT } from '@/endpoints/vote.endpoint';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  type PayloadAction,
+  createAsyncThunk,
+  createSlice,
+} from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 export const REQUEST_UP_VOTE_THREAD = createAsyncThunk(
@@ -41,18 +46,6 @@ export const REQUEST_DOWN_VOTE_THREAD = createAsyncThunk(
   },
 );
 
-type TVoteState = {
-  loading: boolean;
-  message: string | unknown;
-  error: AxiosError | null;
-  vote: {
-    id: string;
-    userId: string;
-    threadId: string;
-    voteType: number;
-  } | null;
-};
-
 const initialState: TVoteState = {
   loading: false,
   message: null,
@@ -71,12 +64,15 @@ const voteSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(REQUEST_UP_VOTE_THREAD.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.vote = payload.data.vote;
-        state.message = payload.message;
-        state.error = null;
-      })
+      .addCase(
+        REQUEST_UP_VOTE_THREAD.fulfilled,
+        (state, { payload }: PayloadAction<TVoteResponse>) => {
+          state.loading = false;
+          state.vote = payload.data.vote;
+          state.message = payload.message;
+          state.error = null;
+        },
+      )
       .addCase(REQUEST_UP_VOTE_THREAD.rejected, (state, { payload }) => {
         state.error = payload as AxiosError;
         state.loading = false;
@@ -89,7 +85,7 @@ const voteSlice = createSlice({
       })
       .addCase(
         REQUEST_NEUTRALIZE_VOTE_THREAD.fulfilled,
-        (state, { payload }) => {
+        (state, { payload }: PayloadAction<TVoteResponse>) => {
           state.loading = false;
           state.vote = payload.data.vote;
           state.message = payload.message;
@@ -109,12 +105,15 @@ const voteSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(REQUEST_DOWN_VOTE_THREAD.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.vote = payload.data.vote;
-        state.message = payload.message;
-        state.error = null;
-      })
+      .addCase(
+        REQUEST_DOWN_VOTE_THREAD.fulfilled,
+        (state, { payload }: PayloadAction<TVoteResponse>) => {
+          state.loading = false;
+          state.vote = payload.data.vote;
+          state.message = payload.message;
+          state.error = null;
+        },
+      )
       .addCase(REQUEST_DOWN_VOTE_THREAD.rejected, (state, { payload }) => {
         state.error = payload as AxiosError;
         state.loading = false;

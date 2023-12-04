@@ -1,8 +1,11 @@
 import { API } from '@/config/api';
 import { LEADERBOARD_ENDPOINT } from '@/endpoints/leaderBoard.endpoint';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  TLeaderBoardResponse,
+  TLeaderBoardState,
+} from '@/interfaces/leaderboard.interface';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { type AxiosError } from 'axios';
-import { TUser } from '../user/userSlice';
 
 export const REQUEST_GET_LEADERBOARDS = createAsyncThunk(
   'thread/REQUEST_GET_LEADERBOARDS',
@@ -15,18 +18,6 @@ export const REQUEST_GET_LEADERBOARDS = createAsyncThunk(
     }
   },
 );
-
-export type TLeaderBoard = {
-  user: TUser;
-  score: string;
-};
-
-type TLeaderBoardState = {
-  loading: boolean;
-  message: string | null;
-  error: AxiosError | null;
-  leaderboards: TLeaderBoard[];
-};
 
 const initialState: TLeaderBoardState = {
   loading: false,
@@ -46,12 +37,15 @@ const leaderBoardSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(REQUEST_GET_LEADERBOARDS.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.message = payload.message;
-        state.leaderboards = payload.data.leaderboards;
-        state.error = null;
-      })
+      .addCase(
+        REQUEST_GET_LEADERBOARDS.fulfilled,
+        (state, { payload }: PayloadAction<TLeaderBoardResponse>) => {
+          state.loading = false;
+          state.message = payload.message;
+          state.leaderboards = payload.data.leaderboards;
+          state.error = null;
+        },
+      )
       .addCase(REQUEST_GET_LEADERBOARDS.rejected, (state, { payload }) => {
         state.error = payload as AxiosError;
         state.loading = false;
