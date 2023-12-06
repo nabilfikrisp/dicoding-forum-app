@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { REQUEST_GET_ALL_USER, TUser } from '@/redux/features/user/userSlice';
+import { type AppDispatch, type RootState } from '@/redux/store';
+import { REQUEST_GET_ALL_USER } from '@/redux/features/user/userSlice';
+import { type TUser } from '@/interfaces/user.interface';
 
 const useUser = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -8,16 +9,19 @@ const useUser = () => {
     (state: RootState) => state.user,
   );
 
-  const getUsers = () =>
-    dispatch(REQUEST_GET_ALL_USER()).then((result) => {
-      if (result.meta.requestStatus === 'rejected') {
-        console.log(result.payload);
-      }
-    });
+  const getUsers = async () => {
+    const result = await dispatch(REQUEST_GET_ALL_USER());
+    if (result.meta.requestStatus === 'rejected') {
+      console.log(result.payload);
+    }
+  };
 
   const getUserById = (userId: string): TUser | null => {
     const user = users.find((user) => user.id === userId);
-    return user || null;
+    if (user === undefined) {
+      return null;
+    }
+    return user;
   };
 
   return { getUsers, users, loading, message, getUserById, error };

@@ -1,6 +1,6 @@
 import CommentForm from './forms/CommentForm';
 import CommentCard from './CommentCard';
-import { TComment } from '@/interfaces/comment.interface';
+import { type TComment } from '@/interfaces/comment.interface';
 
 const EmptyState = () => {
   return (

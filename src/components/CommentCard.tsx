@@ -10,7 +10,7 @@ import parse from 'html-react-parser';
 import useComment from '@/hooks/api/useComment';
 import useAuth from '@/hooks/api/useAuth';
 import useThread from '@/hooks/api/useThread';
-import { TComment } from '@/interfaces/comment.interface';
+import { type TComment } from '@/interfaces/comment.interface';
 
 const CommentCard = ({ comment }: { comment: TComment }) => {
   const { loading, upVoteComment, neutralizeVoteComment, downVoteComment } =
@@ -31,9 +31,7 @@ const CommentCard = ({ comment }: { comment: TComment }) => {
               <CircleUserRoundIcon />
             </AvatarFallback>
           </Avatar>
-          <h4 className="text-base">
-            {comment.owner ? comment.owner.name : 'Anonymus'}
-          </h4>
+          <h4 className="text-base">{comment.owner.name}</h4>
         </div>
         <small>{dayjs(comment.createdAt).fromNow()}</small>
       </div>
@@ -45,15 +43,15 @@ const CommentCard = ({ comment }: { comment: TComment }) => {
           ) : (
             <ThumbsUpIcon
               fill={userHasUpvoted ? 'hsl(var(--primary))' : ''}
-              onClick={() => {
+              onClick={async () => {
                 if (!loading) {
                   if (userHasUpvoted) {
-                    neutralizeVoteComment(
+                    await neutralizeVoteComment(
                       detailThread?.id as string,
                       comment.id,
                     );
                   } else {
-                    upVoteComment(detailThread?.id as string, comment.id);
+                    await upVoteComment(detailThread?.id as string, comment.id);
                   }
                 }
               }}
@@ -68,15 +66,18 @@ const CommentCard = ({ comment }: { comment: TComment }) => {
           ) : (
             <ThumbsDownIcon
               fill={userHasDownvoted ? 'hsl(var(--destructive))' : ''}
-              onClick={() => {
+              onClick={async () => {
                 if (!loading) {
                   if (userHasDownvoted) {
-                    neutralizeVoteComment(
+                    await neutralizeVoteComment(
                       detailThread?.id as string,
                       comment.id,
                     );
                   } else {
-                    downVoteComment(detailThread?.id as string, comment.id);
+                    await downVoteComment(
+                      detailThread?.id as string,
+                      comment.id,
+                    );
                   }
                 }
               }}

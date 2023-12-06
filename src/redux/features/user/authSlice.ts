@@ -1,13 +1,17 @@
 import { API } from '@/config/api';
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import {
+  type PayloadAction,
+  createAsyncThunk,
+  createSlice,
+} from '@reduxjs/toolkit';
+import { type AxiosError } from 'axios';
 import { USER_ENDPOINT } from '@/endpoints/user.endpoint';
 
 import {
-  TAuthState,
-  TLoginReqBody,
-  TRegisterResponse,
-  TRegistrationReqBody,
+  type TAuthState,
+  type TLoginReqBody,
+  type TRegisterResponse,
+  type TRegistrationReqBody,
 } from '@/interfaces/auth.interface';
 
 export const REQUEST_REGISTER_USER = createAsyncThunk(

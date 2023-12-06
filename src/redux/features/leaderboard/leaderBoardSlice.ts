@@ -1,10 +1,14 @@
 import { API } from '@/config/api';
 import { LEADERBOARD_ENDPOINT } from '@/endpoints/leaderBoard.endpoint';
 import {
-  TLeaderBoardResponse,
-  TLeaderBoardState,
+  type TLeaderBoardResponse,
+  type TLeaderBoardState,
 } from '@/interfaces/leaderboard.interface';
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  type PayloadAction,
+  createAsyncThunk,
+  createSlice,
+} from '@reduxjs/toolkit';
 import { type AxiosError } from 'axios';
 
 export const REQUEST_GET_LEADERBOARDS = createAsyncThunk(

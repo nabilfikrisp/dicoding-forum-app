@@ -10,7 +10,7 @@ import { Badge } from './ui/badge';
 import parse from 'html-react-parser';
 import useLogin from '@/hooks/api/useAuth';
 import useVote from '@/hooks/api/useVote';
-import { TDetailThread } from '@/interfaces/thread.interface';
+import { type TDetailThread } from '@/interfaces/thread.interface';
 
 const ThreadDetailContent = ({ thread }: { thread: TDetailThread }) => {
   const {
@@ -33,11 +33,11 @@ const ThreadDetailContent = ({ thread }: { thread: TDetailThread }) => {
             <CircleUserRoundIcon />
           </AvatarFallback>
         </Avatar>
-        <small>{thread?.owner ? thread?.owner.name : 'Anonymus'}</small>
+        <small>{thread?.owner.name}</small>
         <small>{dayjs(thread?.createdAt).fromNow()}</small>
         <Badge>{thread?.category}</Badge>
       </div>
-      <div className="paragraph">{parse(thread?.body as string)}</div>
+      <div className="paragraph">{parse(thread?.body)}</div>
 
       <div className="flex items-center justify-start gap-3 ps-1">
         <div className="flex items-start justify-start gap-2">
@@ -46,12 +46,12 @@ const ThreadDetailContent = ({ thread }: { thread: TDetailThread }) => {
           ) : (
             <ThumbsUpIcon
               fill={userHasUpvoted ? 'hsl(var(--primary))' : ''}
-              onClick={() => {
+              onClick={async () => {
                 if (!voteLoading) {
                   if (userHasUpvoted) {
-                    neutralizeVoteThread(thread.id);
+                    await neutralizeVoteThread(thread.id);
                   } else {
-                    upVoteThread(thread.id);
+                    await upVoteThread(thread.id);
                   }
                 }
               }}
@@ -66,12 +66,12 @@ const ThreadDetailContent = ({ thread }: { thread: TDetailThread }) => {
           ) : (
             <ThumbsDownIcon
               fill={userHasDownvoted ? 'hsl(var(--destructive))' : ''}
-              onClick={() => {
+              onClick={async () => {
                 if (!voteLoading) {
                   if (userHasDownvoted) {
-                    neutralizeVoteThread(thread.id);
+                    await neutralizeVoteThread(thread.id);
                   } else {
-                    downVoteThread(thread.id);
+                    await downVoteThread(thread.id);
                   }
                 }
               }}

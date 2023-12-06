@@ -3,10 +3,12 @@ import {
   REQUEST_GET_MY_PROFILE,
   REQUEST_LOGIN,
   REQUEST_REGISTER_USER,
-  TLoginReqBody,
-  TRegistrationReqBody,
 } from '@/redux/features/user/authSlice';
-import { AppDispatch, RootState } from '@/redux/store';
+import {
+  type TRegistrationReqBody,
+  type TLoginReqBody,
+} from '@/interfaces/auth.interface';
+import { type AppDispatch, type RootState } from '@/redux/store';
 import { deleteLocalStorage, setLocalStorage } from '@/utils/localStorage';
 import { useDispatch, useSelector } from 'react-redux';
 import useResponse from '../useResponse';
@@ -20,37 +22,35 @@ const useAuth = () => {
   );
   const { handleSuccess, handleError } = useResponse();
 
-  const register = (userData: TRegistrationReqBody) => {
-    dispatch(REQUEST_REGISTER_USER(userData)).then((result) => {
-      if (result.meta.requestStatus === 'fulfilled') {
-        handleSuccess(result.payload.message);
-        navigate('/login');
-      } else if (result.meta.requestStatus === 'rejected') {
-        handleError(
-          result.payload.response.data.message,
-          result.payload.response.status,
-        );
-      }
-    });
+  const register = async (userData: TRegistrationReqBody) => {
+    const result = await dispatch(REQUEST_REGISTER_USER(userData));
+    if (result.meta.requestStatus === 'fulfilled') {
+      handleSuccess(result.payload.message);
+      navigate('/login');
+    } else if (result.meta.requestStatus === 'rejected') {
+      handleError(
+        result.payload.response.data.message,
+        result.payload.response.status,
+      );
+    }
   };
 
-  const login = (reqBody: TLoginReqBody) => {
-    dispatch(REQUEST_LOGIN(reqBody)).then((result) => {
-      if (result.meta.requestStatus === 'fulfilled') {
-        handleSuccess(result.payload.message);
-        setLocalStorage('token', result.payload.data.token);
-        navigate('/');
-      } else if (result.meta.requestStatus === 'rejected') {
-        handleError(
-          result.payload.response.data.message,
-          result.payload.response.status,
-        );
-      }
-    });
+  const login = async (reqBody: TLoginReqBody) => {
+    const result = await dispatch(REQUEST_LOGIN(reqBody));
+    if (result.meta.requestStatus === 'fulfilled') {
+      handleSuccess(result.payload.message);
+      setLocalStorage('token', result.payload.data.token);
+      navigate('/');
+    } else if (result.meta.requestStatus === 'rejected') {
+      handleError(
+        result.payload.response.data.message,
+        result.payload.response.status,
+      );
+    }
   };
 
-  const getMyProfile = () => {
-    dispatch(REQUEST_GET_MY_PROFILE()).then((result) => {
+  const getMyProfile = async () => {
+    await dispatch(REQUEST_GET_MY_PROFILE()).then((result) => {
       if (result.meta.requestStatus === 'rejected') {
         handleError(result.payload, result.payload.code);
       }

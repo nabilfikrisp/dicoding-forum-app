@@ -4,8 +4,6 @@ import { useParams } from 'react-router-dom';
 import ThreadDetailContent from '@/components/ThreadDetailContent';
 import LoadingState from '@/components/LoadingState';
 import ThreadDetailComment from '@/components/ThreadDetailComment';
-import { TDetailThread } from '@/interfaces/thread.interface';
-import { TComment } from '@/interfaces/comment.interface';
 
 const ThreadDetail = () => {
   const { id } = useParams();
@@ -18,16 +16,16 @@ const ThreadDetail = () => {
     return <LoadingState />;
   }
 
-  if (error) {
+  if (error !== null) {
     return <p>{error.message}</p>;
   }
 
   return (
     <div className="mx-auto flex w-full max-w-[800px] flex-col gap-5 p-5">
-      {thread && (
+      {thread !== null && (
         <>
-          <ThreadDetailContent thread={thread as TDetailThread} />
-          <ThreadDetailComment comments={thread?.comments as TComment[]} />
+          <ThreadDetailContent thread={thread} />
+          <ThreadDetailComment comments={thread?.comments} />
         </>
       )}
     </div>

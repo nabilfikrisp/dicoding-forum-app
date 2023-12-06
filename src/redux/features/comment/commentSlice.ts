@@ -1,11 +1,15 @@
 import { API } from '@/config/api';
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import {
+  type PayloadAction,
+  createAsyncThunk,
+  createSlice,
+} from '@reduxjs/toolkit';
+import { type AxiosError } from 'axios';
 import { COMMENT_ENDPOINT } from '@/endpoints/comment.endpoint';
 import {
-  TCommentState,
-  TCreateCommentResponse,
-  TVoteCommentResponse,
+  type TCommentState,
+  type TCreateCommentResponse,
+  type TVoteCommentResponse,
 } from '@/interfaces/comment.interface';
 
 export const REQUEST_CREATE_COMMENT = createAsyncThunk(

@@ -1,4 +1,4 @@
-import { AppDispatch, RootState } from '@/redux/store';
+import { type AppDispatch, type RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import useResponse from '../useResponse';
 import {
@@ -6,7 +6,11 @@ import {
   pushNewDownVote,
   pushNewUpVote,
 } from '@/redux/features/thread/threadSlice';
-import { REQUEST_DOWN_VOTE_THREAD, REQUEST_NEUTRALIZE_VOTE_THREAD, REQUEST_UP_VOTE_THREAD } from '@/redux/features/vote/voteSlice';
+import {
+  REQUEST_DOWN_VOTE_THREAD,
+  REQUEST_NEUTRALIZE_VOTE_THREAD,
+  REQUEST_UP_VOTE_THREAD,
+} from '@/redux/features/vote/voteSlice';
 
 const useVote = () => {
   const dispatch = useDispatch<AppDispatch>();

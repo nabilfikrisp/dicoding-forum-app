@@ -7,9 +7,10 @@ import thunkMiddleware from 'redux-thunk';
 import { COMMENT_REDUCER } from './features/comment/commentSlice';
 import { LEADER_BOARD_REDUCER } from './features/leaderboard/leaderBoardSlice';
 
-const persistedState = localStorage.getItem('reduxState')
-  ? JSON.parse(localStorage.getItem('reduxState') as string)
-  : {};
+const persistedState =
+  localStorage.getItem('reduxState') !== undefined
+    ? JSON.parse(localStorage.getItem('reduxState') as string)
+    : {};
 
 const store = configureStore({
   devTools: true,

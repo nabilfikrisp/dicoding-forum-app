@@ -1,4 +1,4 @@
-import { TLeaderBoard } from '@/interfaces/leaderboard.interface';
+import { type TLeaderBoard } from '@/interfaces/leaderboard.interface';
 import LeaderBoardCard from './LeaderBoardCard';
 
 const LeaderBoardList = ({

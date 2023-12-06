@@ -1,4 +1,7 @@
-import { TVoteResponse, TVoteState } from '@/interfaces/vote.interface';
+import {
+  type TVoteResponse,
+  type TVoteState,
+} from '@/interfaces/vote.interface';
 import { API } from '@/config/api';
 import { VOTE_ENDPOINT } from '@/endpoints/vote.endpoint';
 import {
@@ -6,7 +9,7 @@ import {
   createAsyncThunk,
   createSlice,
 } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 
 export const REQUEST_UP_VOTE_THREAD = createAsyncThunk(
   'user/UP_VOTE_THREAD',

@@ -1,7 +1,7 @@
-import { AxiosError } from 'axios';
-import { TResponse } from './index.interface';
-import { TUser } from './user.interface';
-import { TComment } from './comment.interface';
+import { type AxiosError } from 'axios';
+import { type TResponse } from './index.interface';
+import { type TUser } from './user.interface';
+import { type TComment } from './comment.interface';
 
 export type TCreateThreadReqBody = {
   title: string;

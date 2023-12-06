@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -81,7 +81,7 @@ const LoginForm = () => {
           Submit
         </MyButton>
         <div>
-          Don't have account?{' '}
+          Don&apos;t have account?{' '}
           <Link to="/register" className="text-primary hover:underline">
             Register now!
           </Link>

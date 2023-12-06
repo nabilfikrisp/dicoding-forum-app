@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios';
-import { TResponse } from './index.interface';
-import { TUser } from './user.interface';
+import { type AxiosError } from 'axios';
+import { type TResponse } from './index.interface';
+import { type TUser } from './user.interface';
 
 export type TRegistrationReqBody = {
   name: string;

@@ -11,6 +11,7 @@
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["src/lib/*", "src/components/ui*", "vite.config.ts"],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -21,6 +22,25 @@
   "rules": {
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"]
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ],
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/promise-function-async": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/dot-notation": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

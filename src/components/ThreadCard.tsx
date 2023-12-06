@@ -12,13 +12,18 @@ import useUser from '@/hooks/api/useUser';
 import { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import useLogin from '@/hooks/api/useAuth';
-import { TUser } from '@/interfaces/user.interface';
-import { TThread } from '@/interfaces/thread.interface';
+import { type TUser } from '@/interfaces/user.interface';
+import { type TThread } from '@/interfaces/thread.interface';
+import LoadingState from './LoadingState';
 
 const ThreadCard = ({ thread }: { thread: TThread }) => {
   const [, setSearchParams] = useSearchParams();
-  const { getUserById } = useUser();
+  const { getUserById, loading } = useUser();
   const { myProfile } = useLogin();
+
+  if (loading) {
+    return <LoadingState />;
+  }
 
   const [owner, setOwner] = useState<TUser | null>(null);
 
@@ -42,7 +47,7 @@ const ThreadCard = ({ thread }: { thread: TThread }) => {
               <CircleUserRoundIcon />
             </AvatarFallback>
           </Avatar>
-          <small>{owner ? owner.name : 'Anonymus'}</small>
+          <small>{owner?.name}</small>
           <small>{dayjs(thread.createdAt).fromNow()}</small>
         </div>
       </div>

@@ -12,7 +12,7 @@ const PopularCategory = ({ categories }: { categories: string[] }) => {
             key={idx}
             className="cursor-pointer"
             onClick={() => {
-              setSearchParams({ category: category });
+              setSearchParams({ category });
             }}
           >
             {category}

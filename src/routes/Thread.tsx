@@ -36,13 +36,13 @@ const Thread = () => {
   if (loading || loadingUsers || loadingProfile) {
     return <LoadingState />;
   }
-  if (error) {
+  if (error !== null) {
     return <p>Error fetching threads: {error.message}</p>;
   }
-  if (profileError) {
+  if (profileError !== null) {
     return <p>Error fetching profile data: {profileError.message}</p>;
   }
-  if (userError) {
+  if (userError !== null) {
     return <p>Error fetching users data: {userError.message}</p>;
   }
 

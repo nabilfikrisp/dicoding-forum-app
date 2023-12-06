@@ -1,5 +1,4 @@
 import { Textarea } from '@/components/ui/textarea';
-
 import {
   Form,
   FormControl,
@@ -30,8 +29,8 @@ const CommentForm = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof CommentFormSchema>) => {
-    createComment(detailThread?.id as string, data);
+  const onSubmit = async (data: z.infer<typeof CommentFormSchema>) => {
+    await createComment(detailThread?.id as string, data);
     form.reset();
   };
 

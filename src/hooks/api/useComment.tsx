@@ -4,7 +4,7 @@ import {
   REQUEST_NEUTRALIZE_VOTE_COMMENT,
   REQUEST_UP_VOTE_COMMENT,
 } from '@/redux/features/comment/commentSlice';
-import { AppDispatch, RootState } from '@/redux/store';
+import { type AppDispatch, type RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import useResponse from '../useResponse';
 import {

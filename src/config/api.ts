@@ -1,5 +1,5 @@
 import { getLocalStorage } from '@/utils/localStorage';
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 
 export const API = axios.create({
   baseURL: 'https://forum-api.dicoding.dev/v1',
@@ -9,7 +9,7 @@ const requestInterceptor = (config: InternalAxiosRequestConfig) => {
   const token = getLocalStorage('token');
   const { headers } = config;
 
-  if (token) {
+  if (token !== null) {
     headers['Authorization'] = `Bearer ${token}`;
   }
   return config;

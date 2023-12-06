@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios';
-import { TUser } from './user.interface';
-import { TResponse } from './index.interface';
+import { type AxiosError } from 'axios';
+import { type TUser } from './user.interface';
+import { type TResponse } from './index.interface';
 
 export type TComment = {
   id: string;

@@ -1,4 +1,4 @@
-import { TLeaderBoard } from '@/interfaces/leaderboard.interface';
+import { type TLeaderBoard } from '@/interfaces/leaderboard.interface';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { CircleUserRoundIcon } from 'lucide-react';
 
@@ -12,7 +12,7 @@ const LeaderBoardCard = ({ leaderboard }: { leaderboard: TLeaderBoard }) => {
             <CircleUserRoundIcon />
           </AvatarFallback>
         </Avatar>
-        <h4>{leaderboard.user.name ? leaderboard.user.name : 'Anonymus'}</h4>
+        <h4>{leaderboard.user.name}</h4>
       </div>
       <h4>{leaderboard.score}</h4>
     </div>

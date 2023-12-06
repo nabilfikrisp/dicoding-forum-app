@@ -1,15 +1,19 @@
 import { API } from '@/config/api';
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
-import { TComment } from '@/interfaces/comment.interface'; 
+import {
+  type PayloadAction,
+  createAsyncThunk,
+  createSlice,
+} from '@reduxjs/toolkit';
+import { type AxiosError } from 'axios';
+import { type TComment } from '@/interfaces/comment.interface';
 import { THREAD_ENDPOINT } from '@/endpoints/thread.endpoint';
 import {
-  TCreateThreadReqBody,
-  TCreateThreadResponse,
-  TDetailThreadResponse,
-  TThread,
-  TThreadState,
-  TThreadsResponse,
+  type TCreateThreadReqBody,
+  type TCreateThreadResponse,
+  type TDetailThreadResponse,
+  type TThread,
+  type TThreadState,
+  type TThreadsResponse,
 } from '@/interfaces/thread.interface';
 
 export const REQUEST_GET_THREADS = createAsyncThunk(
@@ -67,7 +71,7 @@ const threadSlice = createSlice({
     ) => {
       const { newUserId } = payload;
 
-      if (state.detailThread) {
+      if (state.detailThread !== null) {
         state.detailThread.upVotesBy = [
           ...state.detailThread.upVotesBy,
           newUserId,
@@ -83,7 +87,7 @@ const threadSlice = createSlice({
       { payload }: PayloadAction<{ newUserId: string }>,
     ) => {
       const { newUserId } = payload;
-      if (state.detailThread) {
+      if (state.detailThread !== null) {
         state.detailThread.upVotesBy = [...state.detailThread.upVotesBy].filter(
           (userId) => userId !== newUserId,
         );
@@ -98,7 +102,7 @@ const threadSlice = createSlice({
       { payload }: PayloadAction<{ newUserId: string }>,
     ) => {
       const { newUserId } = payload;
-      if (state.detailThread) {
+      if (state.detailThread !== null) {
         state.detailThread.downVotesBy = [
           ...state.detailThread.downVotesBy,
           newUserId,
@@ -113,7 +117,7 @@ const threadSlice = createSlice({
       state,
       { payload }: PayloadAction<{ newComment: TComment }>,
     ) => {
-      if (state.detailThread) {
+      if (state.detailThread !== null) {
         state.detailThread.comments = [
           ...state.detailThread.comments,
           payload.newComment,
@@ -125,19 +129,21 @@ const threadSlice = createSlice({
       { payload }: PayloadAction<{ commentId: string; newUserId: string }>,
     ) => {
       const { commentId, newUserId } = payload;
-      if (state.detailThread && state.detailThread.comments) {
-        const commentIndex = state.detailThread.comments.findIndex(
-          (comment) => comment.id === commentId,
-        );
-        if (commentIndex !== -1) {
-          state.detailThread.comments[commentIndex].downVotesBy = [
-            ...state.detailThread.comments[commentIndex].downVotesBy,
-          ].filter((userId) => userId !== newUserId);
+      if (state.detailThread !== null) {
+        if (state.detailThread.comments !== null) {
+          const commentIndex = state.detailThread.comments.findIndex(
+            (comment) => comment.id === commentId,
+          );
+          if (commentIndex !== -1) {
+            state.detailThread.comments[commentIndex].downVotesBy = [
+              ...state.detailThread.comments[commentIndex].downVotesBy,
+            ].filter((userId) => userId !== newUserId);
 
-          state.detailThread.comments[commentIndex].upVotesBy = [
-            ...state.detailThread.comments[commentIndex].upVotesBy,
-            newUserId,
-          ];
+            state.detailThread.comments[commentIndex].upVotesBy = [
+              ...state.detailThread.comments[commentIndex].upVotesBy,
+              newUserId,
+            ];
+          }
         }
       }
     },
@@ -146,19 +152,21 @@ const threadSlice = createSlice({
       { payload }: PayloadAction<{ commentId: string; newUserId: string }>,
     ) => {
       const { commentId, newUserId } = payload;
-      if (state.detailThread && state.detailThread.comments) {
-        const commentIndex = state.detailThread.comments.findIndex(
-          (comment) => comment.id === commentId,
-        );
-        if (commentIndex !== -1) {
-          state.detailThread.comments[commentIndex].upVotesBy = [
-            ...state.detailThread.comments[commentIndex].upVotesBy,
-          ].filter((userId) => userId !== newUserId);
+      if (state.detailThread !== null) {
+        if (state.detailThread.comments !== null) {
+          const commentIndex = state.detailThread.comments.findIndex(
+            (comment) => comment.id === commentId,
+          );
+          if (commentIndex !== -1) {
+            state.detailThread.comments[commentIndex].upVotesBy = [
+              ...state.detailThread.comments[commentIndex].upVotesBy,
+            ].filter((userId) => userId !== newUserId);
 
-          state.detailThread.comments[commentIndex].downVotesBy = [
-            ...state.detailThread.comments[commentIndex].downVotesBy,
-            newUserId,
-          ];
+            state.detailThread.comments[commentIndex].downVotesBy = [
+              ...state.detailThread.comments[commentIndex].downVotesBy,
+              newUserId,
+            ];
+          }
         }
       }
     },
@@ -167,18 +175,20 @@ const threadSlice = createSlice({
       { payload }: PayloadAction<{ commentId: string; newUserId: string }>,
     ) => {
       const { commentId, newUserId } = payload;
-      if (state.detailThread && state.detailThread.comments) {
-        const commentIndex = state.detailThread.comments.findIndex(
-          (comment) => comment.id === commentId,
-        );
-        if (commentIndex !== -1) {
-          state.detailThread.comments[commentIndex].downVotesBy = [
-            ...state.detailThread.comments[commentIndex].downVotesBy,
-          ].filter((userId) => userId !== newUserId);
+      if (state.detailThread !== null) {
+        if (state.detailThread.comments !== null) {
+          const commentIndex = state.detailThread.comments.findIndex(
+            (comment) => comment.id === commentId,
+          );
+          if (commentIndex !== -1) {
+            state.detailThread.comments[commentIndex].downVotesBy = [
+              ...state.detailThread.comments[commentIndex].downVotesBy,
+            ].filter((userId) => userId !== newUserId);
 
-          state.detailThread.comments[commentIndex].upVotesBy = [
-            ...state.detailThread.comments[commentIndex].upVotesBy,
-          ].filter((userId) => userId !== newUserId);
+            state.detailThread.comments[commentIndex].upVotesBy = [
+              ...state.detailThread.comments[commentIndex].upVotesBy,
+            ].filter((userId) => userId !== newUserId);
+          }
         }
       }
     },
@@ -201,7 +211,10 @@ const threadSlice = createSlice({
             const category = thread.category;
             if (category !== undefined && category !== null) {
               newCategoryCount[category] =
-                (newCategoryCount[category] || 0) + 1;
+                typeof newCategoryCount[category] === 'number' &&
+                !isNaN(newCategoryCount[category])
+                  ? newCategoryCount[category] + 1
+                  : 1;
             }
           });
           state.categoryCount = newCategoryCount;

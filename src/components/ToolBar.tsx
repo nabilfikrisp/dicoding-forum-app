@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 const ToolBar = ({ editor }: { editor: Editor | null }) => {
-  if (!editor) {
+  if (editor === null) {
     return null;
   }
   return (

@@ -1,4 +1,4 @@
-import { TThread } from '@/interfaces/thread.interface';
+import { type TThread } from '@/interfaces/thread.interface';
 import ThreadCard from './ThreadCard';
 
 const ThreadFeed = ({ threads }: { threads: TThread[] }) => {

@@ -21,7 +21,7 @@ const LeaderBoard = () => {
     return <LoadingState />;
   }
 
-  if (error) {
+  if (error !== null) {
     return (
       <p className="mx-auto h-full max-w-[800px] p-3">
         Error fetching leaderboards: {error.message}

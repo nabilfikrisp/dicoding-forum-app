@@ -5,14 +5,14 @@ import LoadingState from './components/LoadingState';
 import ErrorPage from './routes/ErrorPage';
 import Thread from './routes/Thread';
 import AuthRoute from './components/middlewares/AuthRoute';
-import Register from './routes/Register';
 import NotAuthRoute from './components/middlewares/NotAuthRoute';
 import { Toaster } from './components/ui/toaster';
-import ThreadDetail from './routes/ThreadDetail';
-import NewThread from './routes/NewThread';
-import LeaderBoard from './routes/LeaderBoard';
 
 const Login = lazy(() => import('./routes/Login'));
+const ThreadDetail = lazy(() => import('./routes/ThreadDetail'));
+const NewThread = lazy(() => import('./routes/NewThread'));
+const Register = lazy(() => import('./routes/Register'));
+const LeaderBoard = lazy(() => import('./routes/LeaderBoard'));
 
 const router = createBrowserRouter([
   {

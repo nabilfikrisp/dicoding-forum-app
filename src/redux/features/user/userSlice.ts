@@ -1,9 +1,16 @@
 // userSlice.js
 import { API } from '@/config/api';
 import { USER_ENDPOINT } from '@/endpoints/user.endpoint';
-import { TUserResponse, TUserState } from '@/interfaces/user.interface';
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import {
+  type TUserResponse,
+  type TUserState,
+} from '@/interfaces/user.interface';
+import {
+  createSlice,
+  createAsyncThunk,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
+import { type AxiosError } from 'axios';
 
 const initialState: TUserState = {
   users: [],
