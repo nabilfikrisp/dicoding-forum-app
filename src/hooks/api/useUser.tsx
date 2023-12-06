@@ -18,7 +18,7 @@ const useUser = () => {
 
   const getUserById = (userId: string): TUser | null => {
     const user = users.find((user) => user.id === userId);
-    if (user === undefined) {
+    if (user === undefined || user === null) {
       return null;
     }
     return user;

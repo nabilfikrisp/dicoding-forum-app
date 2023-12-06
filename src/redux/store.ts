@@ -8,7 +8,7 @@ import { COMMENT_REDUCER } from './features/comment/commentSlice';
 import { LEADER_BOARD_REDUCER } from './features/leaderboard/leaderBoardSlice';
 
 const persistedState =
-  localStorage.getItem('reduxState') !== undefined
+  localStorage.getItem('reduxState') !== null
     ? JSON.parse(localStorage.getItem('reduxState') as string)
     : {};
 
