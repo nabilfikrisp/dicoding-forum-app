@@ -11,8 +11,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
-import useLogin from '@/hooks/api/useAuth';
 import MyButton from '../MyButton';
+// import useAuth from '@/hooks/api/useAuth';
 
 const LoginFormSchema = z.object({
   email: z.string().email(),
@@ -21,16 +21,23 @@ const LoginFormSchema = z.object({
   }),
 });
 
-const LoginForm = () => {
-  const { login, loading } = useLogin();
-  const form = useForm<z.infer<typeof LoginFormSchema>>({
+type TLoginFormSchema = z.infer<typeof LoginFormSchema>;
+
+const LoginForm = ({
+  login,
+  loading,
+}: {
+  login: (data: TLoginFormSchema) => void;
+  loading?: boolean;
+}) => {
+  const form = useForm<TLoginFormSchema>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
-  const onSubmit: SubmitHandler<z.infer<typeof LoginFormSchema>> = (data) => {
+  const onSubmit: SubmitHandler<TLoginFormSchema> = (data) => {
     login(data);
   };
 
