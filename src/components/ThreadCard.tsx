@@ -36,7 +36,7 @@ const ThreadCard = ({ thread }: { thread: TThread }) => {
     <div className="flex w-full flex-col gap-4 rounded-lg border border-b-4 p-3 shadow shadow-secondary md:p-5">
       <div className="flex flex-col gap-2">
         <Link to={`/threads/${thread.id}`}>
-          <h4 className="flex-grow break-words hover:underline md:text-3xl">
+          <h4 className="line-clamp-3 flex-grow break-words hover:underline md:text-3xl">
             {thread.title}
           </h4>
         </Link>

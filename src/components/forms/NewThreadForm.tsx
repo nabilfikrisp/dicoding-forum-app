@@ -15,9 +15,14 @@ import Tiptap from '../TipTap';
 import useThread from '@/hooks/api/useThread';
 
 const formSchema = z.object({
-  title: z.string().min(2, {
-    message: 'Title must be at least 2 characters.',
-  }),
+  title: z
+    .string()
+    .min(2, {
+      message: 'Title must be at least 2 characters.',
+    })
+    .max(180, {
+      message: 'Title too long brother',
+    }),
   body: z
     .string()
     .min(2, {
@@ -28,6 +33,9 @@ const formSchema = z.object({
     .string()
     .min(2, {
       message: 'Category must be at least 2 characters.',
+    })
+    .max(20, {
+      message: 'Category too long brother',
     })
     .optional()
     .or(z.literal('')),
