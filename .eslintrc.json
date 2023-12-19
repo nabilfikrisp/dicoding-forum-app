@@ -17,7 +17,9 @@
     "src/lib/*",
     "src/components/ui*",
     "vite.config.ts",
-    "setupVitest.ts"
+    "setupVitest.ts",
+    "cypress/*",
+    "cypress.config.ts"
   ],
   "overrides": [],
   "parserOptions": {
@@ -25,7 +27,7 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["react", "prettier"],
+  "plugins": ["react", "prettier", "cypress"],
   "rules": {
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/no-unused-vars": "error",

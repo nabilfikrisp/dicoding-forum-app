@@ -2,7 +2,8 @@ name: Unit Test and E2E Test on Pull Request
 on:
   pull_request:
     types: [opened, reopened, edited]
-    branches: -main
+    branches:
+      - main
 
 jobs:
   test:
