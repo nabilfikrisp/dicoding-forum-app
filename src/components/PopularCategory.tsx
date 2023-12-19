@@ -16,7 +16,7 @@ const PopularCategory = ({ categories }: { categories: string[] }) => {
         >
           All
         </Badge>
-        {categories.map((category, idx) => (
+        {categories.slice(0, 10).map((category, idx) => (
           <Badge
             key={idx}
             className="cursor-pointer"
