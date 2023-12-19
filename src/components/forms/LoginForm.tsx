@@ -17,9 +17,8 @@ import MyButton from '../MyButton';
 const LoginFormSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6, {
-    message: 'Password must be at least 6 characters.',
+    message: 'Username must be at least 6 characters.',
   }),
-  mock: z.string(),
 });
 
 type TLoginFormSchema = z.infer<typeof LoginFormSchema>;
@@ -36,7 +35,6 @@ const LoginForm = ({
     defaultValues: {
       email: '',
       password: '',
-      mock: '',
     },
   });
   const onSubmit: SubmitHandler<TLoginFormSchema> = (data) => {
@@ -52,7 +50,7 @@ const LoginForm = ({
         <h1>Login</h1>
         <FormField
           control={form.control}
-          name="mock"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
