@@ -19,9 +19,8 @@ jobs:
       - name: Run Linter
         run: npm run lint
       - name: Run Unit Test
-        run: npm run test
+        run: npm run ci:test
       - name: Run E2E Test
         uses: cypress-io/github-action@v6
         with:
-          build: npm run build
-          start: npm start
+          browser: chrome
