@@ -40,7 +40,7 @@ const ThreadDetailContent = ({ thread }: { thread: TDetailThread }) => {
       <div className="paragraph">{parse(thread?.body)}</div>
 
       <div className="flex items-center justify-start gap-3 ps-1">
-        <div className="flex items-start justify-start gap-2">
+        <div className="flex items-start justify-start gap-2" id="like-icon">
           {voteLoading ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
@@ -60,7 +60,7 @@ const ThreadDetailContent = ({ thread }: { thread: TDetailThread }) => {
 
           {thread?.upVotesBy.length}
         </div>
-        <div className="flex items-start justify-start gap-2">
+        <div className="flex items-start justify-start gap-2" id="unlike-icon">
           {voteLoading ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (

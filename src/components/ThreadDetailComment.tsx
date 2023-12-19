@@ -12,7 +12,9 @@ const ThreadDetailComment = ({ comments }: { comments: TComment[] }) => {
   return (
     <div className="flex w-full flex-col gap-5">
       <CommentForm />
-      <h4>Comments ({comments.length})</h4>
+      <h4>
+        Comments (<span id="total-comment">{comments.length}</span>)
+      </h4>
       <div className="flex flex-col gap-5">
         {comments.length > 0 ? (
           comments.map((comment) => (
