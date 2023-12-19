@@ -9,6 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest",
+    "ci:test": "vitest --no-watch && start-server-and-test dev http-get://0.0.0.0:5173 e2e",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "e2e": "cypress run"
@@ -77,6 +78,7 @@
     "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "redux-mock-store": "^1.5.4",
+    "start-server-and-test": "^2.0.3",
     "storybook": "^7.6.5",
     "storybook-addon-react-router-v6": "^2.0.10",
     "storybook-react-context": "^0.6.0",
