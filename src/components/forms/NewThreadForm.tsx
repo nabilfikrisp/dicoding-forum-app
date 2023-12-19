@@ -17,6 +17,7 @@ import useThread from '@/hooks/api/useThread';
 const formSchema = z.object({
   title: z
     .string()
+    .trim()
     .min(2, {
       message: 'Title must be at least 2 characters.',
     })
@@ -25,12 +26,14 @@ const formSchema = z.object({
     }),
   body: z
     .string()
+    .trim()
     .min(2, {
       message: 'Thread content must be at least 2 characters.',
     })
     .trim(),
   category: z
     .string()
+    .trim()
     .min(2, {
       message: 'Category must be at least 2 characters.',
     })

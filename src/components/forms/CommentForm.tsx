@@ -16,6 +16,7 @@ import useComment from '@/hooks/api/useComment';
 const CommentFormSchema = z.object({
   content: z
     .string()
+    .trim()
     .min(1, {
       message: 'Comment cannot be null',
     })
