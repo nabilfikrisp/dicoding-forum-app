@@ -14,9 +14,14 @@ import useThread from '@/hooks/api/useThread';
 import useComment from '@/hooks/api/useComment';
 
 const CommentFormSchema = z.object({
-  content: z.string().min(1, {
-    message: 'Comment cannot be null',
-  }),
+  content: z
+    .string()
+    .min(1, {
+      message: 'Comment cannot be null',
+    })
+    .max(1024, {
+      message: 'Comment too long brother',
+    }),
 });
 
 const CommentForm = () => {
