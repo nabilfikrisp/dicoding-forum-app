@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 const EmptyState = () => {
   return (
-    <h4 className="text-center text-base">Be the first one to post a threadgit</h4>
+    <h4 className="text-center text-base">Be the first one to post a thread</h4>
   );
 };
 
