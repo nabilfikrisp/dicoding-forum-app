@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# Dicoding Forum App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+The Dicoding Forum App is a web application developed as part of the Dicoding React Web Developer Expert course. It allows users to engage in discussions by creating threads, commenting on them, and interacting with other users. This project demonstrates the implementation of a forum-like platform using modern web development technologies.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **User Authentication**: Register and log in to participate in discussions.
+- **Create Threads**: Initiate new discussion topics.
+- **Commenting**: Add comments to existing threads.
+- **Upvote/Downvote**: Express opinions by upvoting or downvoting threads and comments.
+- **Leaderboard**: View the most active users based on their contributions.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technologies Used
 
-- Configure the top-level `parserOptions` property like this:
+- **Frontend**: React.js, Vite, Tailwind CSS
+- **State Management**: Redux Toolkit
+- **Routing**: React Router
+- **Testing**: Cypress, React Testing Library
+- **Styling**: Tailwind CSS
+- **Utilities**: ESLint, Prettier
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Usage
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. **Register or Log In**: Create an account or log in to participate.
+2. **Explore Threads**: Browse existing threads or create a new one.
+3. **Interact**: Comment on threads, upvote, or downvote as desired.
+4. **Leaderboard**: Check the leaderboard to see top contributors.
+
+## Live Demo
+
+Experience the Dicoding Forum App online:
+
+- **Live Application**: [forum-micanskuy.vercel.app](https://forum-micanskuy.vercel.app/login)
+
+## Acknowledgments
+
+We extend our gratitude to:
+
+- **Dicoding**: For providing the course and resources that guided this project.
+- **Open Source Libraries**: For the tools and frameworks utilized.
+- **Contributors**: For their efforts in enhancing the project.
+
+---
